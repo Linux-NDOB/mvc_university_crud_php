@@ -14,9 +14,9 @@ class DB {
             $db_info = array(
                 "db_host" => "localhost",
                 "db_port" => "3306",
-                "db_user" => "local2",
-                "db_pass" => "Local$$123",
-                "db_name" => "blog",
+                "db_user" => "futon",
+                "db_pass" => "kodokushi",
+                "db_name" => "hotel",
                 "db_charset" => "UTF-8");
 
             try {

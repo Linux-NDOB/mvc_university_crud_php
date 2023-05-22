@@ -1,7 +1,7 @@
 <?php
 
 
-require_once 'Model/PostModel.php';
+require_once 'Model/UniversityModel.php';
 
 
 
