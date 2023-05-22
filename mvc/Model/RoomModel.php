@@ -16,6 +16,12 @@ class RoomModel extends RoomStore
         return $result;
     }
 
+    public function fetch() 
+    {
+      $result = $this->all();
+      return $result;
+    }
+
     
     public function store($array) 
     {

@@ -25,6 +25,14 @@ class RoomStore {
         return $res;
     }
 
+    public function all()
+    {
+        $sql = "SELECT * FROM room_table";
+        $stm = $this->connection->prepare($sql);
+        $stm->execute();        
+        return $stm->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     public function update_room($array)
     { 
         $exists = $this->selectById($array['room_id']);
@@ -68,12 +76,12 @@ class RoomStore {
           $this->update_room($array);
         }
 
-        $sql = "insert into room_table (room_id, room_type, university_name) values ( {$array['room_id']}, {$array['room_type']}, '{$array['university_name']}')";
+        $sql = "insert into room_table (room_id, room_type, university_name) values ( {$array['room_id']}, '{$array['room_type']}', '{$array['university_name']}')";
 
         $stm = $this->connection->prepare($sql);
         $stm->execute();        
         $stm->fetchAll(PDO::FETCH_ASSOC);
-        return $sql;
+        return 'Filled or updated succesfully';
     }
 
     

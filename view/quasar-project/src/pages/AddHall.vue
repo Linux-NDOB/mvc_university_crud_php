@@ -24,12 +24,12 @@ Form(:validation-schema='roomSchema', class='form-container q-mx-sm text-white t
           th Localizacion
           th Eliminar
       tbody
-        tr(v-for= "row in rows " :key="row.university_id", class='justify-items-center' class='justify-items-center text-center')
-            td {{row.university_id}}
+        tr(v-for= "row in rows " :key="row.room_id", class='justify-items-center' class='justify-items-center text-center')
+            td {{row.room_id}}
             td {{row.university_name}}
-            td {{row.university_location}}
+            td {{row.room_type}}
             td
-              q-btn(class='align-content-center' color='indigo' label='Eliminar', @click="drop(row.university_id)")
+              q-btn(class='align-content-center' color='indigo' label='Eliminar', @click="drop(row.room_id)")
             td
 </template>
 
@@ -47,6 +47,7 @@ const roomSchema = ustore.room_schema
 
 const rows = ref({})
 
+const availableRooms = ref(0)
 const formData = ref({
   room_id: "",
   university_name: "",
@@ -73,11 +74,12 @@ const getState = () => {
   }
 }
 
-const storeRoom = async () => ustore.handler(`http://localhost:5000?controller=Room&action=store&room_id=${formData.value.room_id}&university_name=${formData.value.university_name}&room_type=${formData.value.room_type}`, ustore.notify)
+const storeRoom = async () => ustore.handler(`http://localhost:5000?controller=Room&action=store&room_id=${formData.value.room_id}&university_name=${formData.value.university_name}&room_type=${formData.value.room_type}-${formData.value.room_state}`, ustore.notify)
 
 const validateForm = () => {
   roomSchema.validate(formData.value).then((valid) => {
-    storeRoom()
+    console.log(availableRooms.value)
+    availableRooms.value <= 49 ? storeRoom() : ustore.notify('error', 'No se pueden aniadir mas')
     get()
   }).catch((err) => {
     console.log(err)
@@ -88,7 +90,7 @@ const get = async () => {
   const query = await fetch('http://localhost:5000?controller=Room&action=fetch')
   const answer = await query.json()
   rows.value = answer.answer
-  console.log(answer)
+  availableRooms.value = Object.keys(answer.answer).length
 }
 
 const drop = async (roomId: number) => {

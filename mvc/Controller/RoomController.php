@@ -29,6 +29,18 @@ class RoomController
 
     }
 
+    public function fetch()
+    {
+
+        $data = $this->room_model->fetch();
+
+        header('Content-type:application/json;charset=utf-8');
+        echo json_encode([
+            'answer' => $data
+        ]);
+
+    }
+
     public function fill()
     {
 
